@@ -1,4 +1,5 @@
 require_relative './node'
+include Enumerable
 
 class JungleBeat
 
@@ -26,7 +27,7 @@ class JungleBeat
   end
 
   def head?
-    if @next_node == nil
+    if @beat == nil
       return true
     end
   end
@@ -47,6 +48,7 @@ class JungleBeat
   def append(string)
     if @beat == nil
       @beat = string
+      @next_node = string
     else
       split_beat = @beat.split
       split_beat << string
@@ -57,6 +59,7 @@ class JungleBeat
   def prepend(string)
     if @beat == nil
       @beat = string
+      @next_node = string
     else
       split_beat = @beat.split
       split_beat.unshift(string)
@@ -81,6 +84,15 @@ class JungleBeat
       split_beat = @beat.split
       split_beat.pop(n)
       @beat = split_beat.join(" ")
+    end
+  end
+
+  def each
+    return nil if @beat.nil?
+    entry = @beat
+    until entry.nil?
+      yield entry
+      entry = entry.next
     end
   end
 
