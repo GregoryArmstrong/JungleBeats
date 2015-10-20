@@ -10,28 +10,16 @@ class JungleBeat
       @head = beat
     else
       split_beat = @beat.split
-      split_beat.each_with_index do |x, i|
-        i = Node.new(x, split_beat[(i + 1)])
-        p i
-        @head = split_beat[0]
-      end
+      @head = Node.new(split_beat[0], split_beat[1])
     end
   end
-  #
-  # def play
-  #   split_beat = @beat.split
-  #   split_beat.each_with_index do |x, i|
-  #     i = Node.new(x, split_beat[(i + 1)])
-  #     p i
-  #   end
-  # end
 
   def beat
     @beat
   end
 
   def next_node
-    @next_node
+    @head
   end
 
   def head?
@@ -54,7 +42,7 @@ class JungleBeat
   def append(string)
     if @beat == nil
       @beat = string
-      @next_node = string
+      @head = string
     else
       split_beat = @beat.split
       split_beat << string
@@ -101,6 +89,18 @@ class JungleBeat
       entry = entry.next
     end
   end
+
+  # split_beat.each_with_index do |x, i|
+  #   node_i = Node.new(x, split_beat[(i + 1)])
+  #   @head = split_beat[0]#
+
+  # def play
+  #   split_beat = @beat.split
+  #   split_beat.each_with_index do |x, i|
+  #     i = Node.new(x, split_beat[(i + 1)])
+  #     p i
+  #   end
+  # end
 
   # def find(index=0, number=1)
   #   if @beat == nil
