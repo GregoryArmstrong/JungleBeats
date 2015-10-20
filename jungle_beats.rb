@@ -3,18 +3,26 @@ include Enumerable
 
 class JungleBeat
 
-  def initialize(beat=nil, next_node=nil)
+  def initialize(beat=nil, head=nil)
     @beat = beat
-    @next_node = next_node
+    @head = head
+    if beat == nil
+      @head = beat
+    else
+      split_beat = @beat.split
+      split_beat.each_with_index do |x, i|
+        i = Node.new(x, split_beat[(i + 1)])
+        p i
+        @head = split_beat[0]
+      end
+    end
   end
-
+  #
   # def play
   #   split_beat = @beat.split
   #   split_beat.each_with_index do |x, i|
-  #     x = Node.new(split_beat[i], split_beat[(i + 1)])
-  #     p x.object_id
-  #     p @beat
-  #     p @next_node
+  #     i = Node.new(x, split_beat[(i + 1)])
+  #     p i
   #   end
   # end
 
@@ -27,9 +35,7 @@ class JungleBeat
   end
 
   def head?
-    if @beat == nil
-      return true
-    end
+    @head
   end
 
   def all
