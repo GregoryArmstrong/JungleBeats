@@ -1,125 +1,97 @@
-require 'minitest'
-require 'minitest/autorun'
-require 'minitest/pride'
-require './jungle_beats'
+require 'minitest'          # => true
+require 'minitest/autorun'  # => true
+require 'minitest/pride'    # => true
+require './jungle_beats'    # ~> LoadError: cannot load such file -- ./jungle_beats
 
 class JungleBeatsTest < Minitest::Test
 
-  def test_has_no_beat_to_start
+  def test_starts_with_no_head
     jb = JungleBeat.new
 
-    refute nil, jb.beat
+    assert_equal nil, jb.head
   end
 
-  def test_starting_node_is_head
-    jb = JungleBeat.new
-
-    assert true, jb.next_node
-  end
-
-  def test_has_head_with_one_beat
+  def test_if_given_one_string_creates_head_with_only_link
     jb = JungleBeat.new("deep")
 
-    assert true, jb.next_node
+    assert_equal "deep", jb.head.link.data
+    assert_equal nil, jb.head.data
   end
 
-  def test_can_call_all_on_jungle_beat_to_start
-    jb = JungleBeat.new
+  def test_if_given_multiple_string_creates_head_and_nodes
+    jb = JungleBeat.new("deep boop derp burp")
 
-    refute nil, jb.all
+    assert_equal nil, jb.head.data
+    assert_equal "deep", jb.head.link.data
+    assert_equal "boop", jb.head.link.link.data
+    assert_equal "derp", jb.head.link.link.link.data
+    assert_equal "burp", jb.head.link.link.link.link.data
   end
 
-  def test_can_call_all_on_jungle_beat_with_beat
-    jb = JungleBeat.new("deep dep dep deep")
+  def test_can_find_head_with_one_string
+    jb = JungleBeat.new("deep")
 
-    assert_equal "deep dep dep deep", jb.all
+    jb.find_head
+
+    assert_equal nil, jb.head.data
+    refute nil, jb.head.link
   end
 
-  def test_can_return_count_without_a_beat
-    jb = JungleBeat.new
+  def test_can_find_head_with_multiple_string
+    jb = JungleBeat.new("deep boop")
 
-    assert_equal 0, jb.count
+    jb.find_head
+
+    assert_equal nil, jb.head.data
+    refute nil, jb.head.link
   end
 
-  def test_can_return_count_with_a_beat
-    jb = JungleBeat.new("deep dep dep deep")
+  def test_can_find_tail_with_one_string
+    jb = JungleBeat.new("deep")
 
-    assert_equal 4, jb.count
+    assert_equal nil, jb.find_tail.link
   end
 
-  def test_can_append_beat_to_list_with_no_beat
-    jb = JungleBeat.new
-    jb.append("deep")
+  def test_can_find_tail_with_one_string
+    jb = JungleBeat.new("deep burp")
 
-    assert_equal "deep", jb.beat
+    assert_equal nil, jb.find_tail.link
   end
 
-  def test_can_append_beat_to_list_with_beat
-    jb = JungleBeat.new("deep dep dep deep")
-    jb.append("deep")
 
-    assert_equal "deep dep dep deep deep", jb.beat
-  end
 
-  def test_can_prepend_beat_to_list_with_no_beat
-    jb = JungleBeat.new
-    jb.prepend("deep")
 
-    assert_equal "deep", jb.beat
-  end
 
-  def test_can_prepend_beat_to_list_with_beat
-    jb = JungleBeat.new("deep dep dep deep")
-    jb.prepend("deep")
 
-    assert_equal "deep deep dep dep deep", jb.beat
-  end
 
-  def test_can_insert_beat_to_list_with_no_beat
-    jb = JungleBeat.new
-    jb.insert("deep")
 
-    assert_equal "deep", jb.beat
-  end
 
-  def test_can_insert_beat_to_last_position_on_list_with_a_beat
-    jb = JungleBeat.new("deep dep dep deep")
-    jb.insert("deep", -1)
 
-    assert_equal "deep dep dep deep deep", jb.beat
-  end
 
-  def test_can_insert_beat_to_specified_position_on_list_with_a_beat
-    jb = JungleBeat.new("deep dep dep deep")
-    jb.insert("deep", -3)
 
-    assert_equal "deep dep deep dep deep", jb.beat
-  end
 
-  def test_cannot_pop_with_no_beat
-    jb = JungleBeat.new
-    jb.pop
 
-    assert_equal nil, jb.beat
-  end
 
-  def test_can_pop_with_a_beat
-    jb = JungleBeat.new("deep dep dep deep")
-    jb.pop
 
-    assert_equal "deep dep dep", jb.beat
-  end
 
-  def test_can_pop_multiple_elements_with_a_beat
-    jb = JungleBeat.new("deep dep dep deep")
-    jb.pop(2)
 
-    assert_equal "deep dep", jb.beat
-  end
 
-  # def test_can_find_a_single_element_in_beat
-  #   jb = JungleBeat.new("deep dep dep deep")
-  #
-  #   assert_equal "dep", jb.find(1, 1)
-  # end
+
 end
+
+# >> Run options: --seed 16597
+# >>
+# >> # Running:
+# >>
+# >>
+# >>
+# >> Finished in 0.001035s, 0.0000 runs/s, 0.0000 assertions/s.
+# >>
+# >> 0 runs, 0 assertions, 0 failures, 0 errors, 0 skips
+
+# ~> LoadError
+# ~> cannot load such file -- ./jungle_beats
+# ~>
+# ~> /Users/gregoryarmstrong/.rvm/rubies/ruby-2.2.3/lib/ruby/2.2.0/rubygems/core_ext/kernel_require.rb:54:in `require'
+# ~> /Users/gregoryarmstrong/.rvm/rubies/ruby-2.2.3/lib/ruby/2.2.0/rubygems/core_ext/kernel_require.rb:54:in `require'
+# ~> /Users/gregoryarmstrong/turing/1module/JungleBeats/jungle_beats_test.rb:4:in `<main>'
