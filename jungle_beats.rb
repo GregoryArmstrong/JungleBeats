@@ -1,8 +1,8 @@
-require_relative './node'
+require_relative './node'  # => true
 
 class JungleBeat
 
-  attr_accessor :head
+  attr_accessor :head  # => nil
 
   def initialize(beat=nil, head=nil)
     @head = head
@@ -30,8 +30,24 @@ class JungleBeat
     while current_node.link != nil
       current_node = current_node.link
     end
-    if current_node.link == nil
-      return current_node
+    return current_node
+  end
+
+  def append(string)
+    if @head == nil
+      @head = Node.new
+      @head.link = Node.new(string)
+    else
+      split_string = string.split
+      split_string.each do |x|
+        current_node = @head.link
+        while current_node.link != nil
+          current_node = current_node.link
+        end
+        current_node.link = Node.new(x)
+        current_node = current_node.link
+      end
     end
   end
+
 end
