@@ -47,6 +47,7 @@ class JungleBeat
         current_node = current_node.link
       end
     end
+    puts "Beats appended."
   end
 
   def prepend(string)
@@ -57,20 +58,26 @@ class JungleBeat
       create_initial_head(string)
       find_tail.link = stored_head_link
     end
+    puts "Beats prepended."
   end
 
   def insert(position, string)
-    current_node = @head.link
-    (position - 1).times do
-      current_node = current_node.link
+    if @head == nil
+      create_initial_head(string)
+    else
+      current_node = @head.link
+      (position - 1).times do
+        current_node = current_node.link
+      end
+      stored_post_insert_link = current_node.link
+      split_string = string.split
+      split_string.each do |x|
+        current_node.link = Node.new(x)
+        current_node = current_node.link
+      end
+      find_tail.link = stored_post_insert_link
     end
-    stored_post_insert_link = current_node.link
-    split_string = string.split
-    split_string.each do |x|
-      current_node.link = Node.new(x)
-      current_node = current_node.link
-    end
-    find_tail.link = stored_post_insert_link
+    puts "Beats inserted."
   end
 
   def find(position, number_of_elements)
@@ -144,36 +151,8 @@ class JungleBeat
   end
 
   def play
+    puts "Playing beat!"
     p `say -v Boing #{all}`
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 end

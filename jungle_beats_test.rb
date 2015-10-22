@@ -131,7 +131,6 @@ class JungleBeatsTest < Minitest::Test
   end
 
   def test_can_insert_one_beat_into_empty_list
-    skip
     jb = JungleBeat.new
     jb.insert(0, "tee")
 
